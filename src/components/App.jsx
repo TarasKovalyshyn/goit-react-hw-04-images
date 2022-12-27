@@ -1,28 +1,60 @@
 import React, { Component } from 'react';
 import Searchbar from './Searchbar/Searchbar';
+import Loader from './Loader/Loade';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { fetchImages } from './api';
+// import Modal from './Modal/Modal';
 
 export class App extends Component {
   state = {
     searchQuery: '',
     images: [],
+    page: '',
+    loading: false,
+    showModal: false,
   };
-  async componentDidMount() {
-    try {
-      const response = await fetchImages(this.state.searchQuery);
-      this.setState({ images: response });
-    } catch (error) {}
+
+  async componentDidUpdate(_, prevState) {
+    const { searchQuery, page } = this.state;
+
+    if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
+      this.setState({ loading: true });
+
+      try {
+        const response = await fetchImages(searchQuery, page);
+
+        if (response.length === 0) {
+          toast.warn('Didn`t find anything, please change search query');
+        }
+        this.setState(prevState => {
+          return { images: [...prevState.images, ...response], loading: false };
+        });
+      } catch (error) {
+        toast.error('we have a problem');
+      }
+    }
   }
+
   handleFormSubmit = async searchQuery => {
-    this.setState({ searchQuery });
-    const response = await fetchImages(searchQuery);
-    this.setState({ images: response });
+    this.setState({ searchQuery, images: [], page: 1 });
+    // this.setState({ searchQuery });
+    // this.setState({ images: [] });
+    // this.setState({ page: 1 });
+  };
+
+  incrementPage = () =>
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
   };
 
   render() {
+    const { loading, images, showModal } = this.state;
     return (
       <div
         style={{
@@ -33,9 +65,16 @@ export class App extends Component {
         }}
       >
         <Searchbar onSubmit={this.handleFormSubmit} />
-
-        {this.state.images && <ImageGallery images={this.state.images} />}
-        <Button />
+        {loading && <Loader />}
+        {images && (
+          <ImageGallery
+            images={images}
+            onClick={this.toggleModal}
+            showModal={showModal}
+          />
+        )}
+        {images.length !== 0 && <Button onClick={this.incrementPage} />}
+        {/* {showModal && <Modal  />} */}
         <ToastContainer autoClose={3000} />
       </div>
     );
