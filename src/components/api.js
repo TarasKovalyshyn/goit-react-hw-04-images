@@ -14,7 +14,6 @@ export const fetchImages = async (searchQuery, page) => {
   const response = await axios.get(`/?key=${API_KEY}&page=${page}`, {
     params,
   });
-  console.log(params);
-  console.log('response', response.data.hits)
+
   return response.data.hits;
 };

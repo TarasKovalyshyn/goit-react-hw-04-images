@@ -5,7 +5,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { fetchImages } from './api';
-// import Modal from './Modal/Modal';
+
 
 export class App extends Component {
   state = {
@@ -13,7 +13,6 @@ export class App extends Component {
     images: [],
     page: '',
     loading: false,
-    showModal: false,
   };
 
   async componentDidUpdate(_, prevState) {
@@ -47,14 +46,14 @@ export class App extends Component {
   incrementPage = () =>
     this.setState(prevState => ({ page: prevState.page + 1 }));
 
-  toggleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
+  // toggleModal = () => {
+  //   this.setState(({ showModal }) => ({
+  //     showModal: !showModal,
+  //   }));
+  // };
 
   render() {
-    const { loading, images, showModal } = this.state;
+    const { loading, images } = this.state;
     return (
       <div
         style={{
@@ -66,15 +65,8 @@ export class App extends Component {
       >
         <Searchbar onSubmit={this.handleFormSubmit} />
         {loading && <Loader />}
-        {images && (
-          <ImageGallery
-            images={images}
-            onClick={this.toggleModal}
-            showModal={showModal}
-          />
-        )}
+        {images && <ImageGallery images={images} />}
         {images.length !== 0 && <Button onClick={this.incrementPage} />}
-        {/* {showModal && <Modal  />} */}
         <ToastContainer autoClose={3000} />
       </div>
     );

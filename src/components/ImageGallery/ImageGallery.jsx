@@ -1,22 +1,14 @@
 import css from './ImageGallery.module.css';
-import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
-// import Modal from 'components/Modal/Modal';
+import  ImageGalleryItem  from '../ImageGalleryItem/ImageGalleryItem';
 
-export const ImageGallery = ({ images, onClick, showModal }) => {
+export const ImageGallery = ({ images }) => {
   return (
     <ul className={css.ImageGallery}>
       {images.map(({ id, webformatURL, tags, largeImageURL }) => {
         return (
-          <li key={id} className={css.ImageGalleryItem} >
-            <ImageGalleryItem
-              image={webformatURL}
-              tags={tags}
-              onClick={onClick}
-              largeImageURL={largeImageURL}
-              showModal={showModal}
-            >
-              
-            </ImageGalleryItem>
+          <li key={id} className={css.ImageGalleryItem}>
+            <ImageGalleryItem image={webformatURL} tags={tags} largeImageURL={largeImageURL}
+            ></ImageGalleryItem>
           </li>
         );
       })}
