@@ -1,5 +1,5 @@
 import css from './ImageGallery.module.css';
-import  ImageGalleryItem  from '../ImageGalleryItem/ImageGalleryItem';
+import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
 export const ImageGallery = ({ images }) => {
   return (
@@ -7,8 +7,11 @@ export const ImageGallery = ({ images }) => {
       {images.map(({ id, webformatURL, tags, largeImageURL }) => {
         return (
           <li key={id} className={css.ImageGalleryItem}>
-            <ImageGalleryItem image={webformatURL} tags={tags} largeImageURL={largeImageURL}
-            ></ImageGalleryItem>
+            <ImageGalleryItem
+              image={webformatURL}
+              tags={tags}
+              largeImageURL={largeImageURL}
+            />
           </li>
         );
       })}
