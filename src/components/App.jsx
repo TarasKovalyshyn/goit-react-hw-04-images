@@ -3,7 +3,7 @@ import Loader from './Loader/Loade';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
 import { ToastContainer, toast } from 'react-toastify';
-import { fetchImages } from './api';
+import { fetchImages } from '../api';
 import { useState, useEffect } from 'react';
 
 export const App = () => {

@@ -7,13 +7,14 @@ const PER_PAGE = 12;
 
 export const fetchImages = async (searchQuery, page) => {
   const params = {
-    orientation: 'horizontal',
-    per_page: '12',
-    image_type: 'photo',
-   
+    page: page,
     q: searchQuery,
+    per_page: PER_PAGE,
+    key: API_KEY,
+    orientation: 'horizontal',
+    image_type: 'photo',
   };
-  const response = await axios.get(`/?key=${API_KEY}&page=${page}`, { params });
+  const response = await axios.get('/', { params });
 
   const responseImages = normalisedImages(response.data.hits);
   const totalPages = Math.ceil(response.data.totalHits / PER_PAGE);
