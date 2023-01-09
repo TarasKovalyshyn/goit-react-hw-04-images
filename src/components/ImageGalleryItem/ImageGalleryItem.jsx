@@ -18,6 +18,7 @@ class ImageGalleryItem extends Component {
     return (
       <>
         <img
+        
           src={image}
           alt={tags}
           className={css.ImageGalleryItem_image}

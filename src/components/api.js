@@ -10,10 +10,11 @@ export const fetchImages = async (searchQuery, page) => {
     orientation: 'horizontal',
     per_page: '12',
     image_type: 'photo',
-    page: page,
+    // page: page,
     q: searchQuery,
   };
   const response = await axios.get(`/?key=${API_KEY}&page=${page}`, { params });
+  console.log(response)
 
   const responseImages = normalisedImages(response.data.hits);
   const totalPages = Math.ceil(response.data.totalHits / PER_PAGE);
