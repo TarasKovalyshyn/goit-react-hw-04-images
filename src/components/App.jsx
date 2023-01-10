@@ -1,23 +1,23 @@
+import { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import { fetchImages } from '../api';
 import Searchbar from './Searchbar/Searchbar';
 import Loader from './Loader/Loade';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from './Button/Button';
-import { ToastContainer, toast } from 'react-toastify';
-import { fetchImages } from '../api';
-import { useState, useEffect } from 'react';
 
 export const App = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
+  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     if (searchQuery === '') {
       return;
     }
-    async function test() {
+    async function fetchFoo() {
       try {
         setLoading(true);
         const { responseImages, totalPages } = await fetchImages(
@@ -37,13 +37,17 @@ export const App = () => {
         setLoading(false);
       }
     }
-    test();
+    fetchFoo();
   }, [searchQuery, page]);
 
-  const handleFormSubmit = searchQuery => {
-    setSearchQuery(searchQuery);
-    setImages([]);
-    setPage(1);
+  const handleFormSubmit = query => {
+    if (searchQuery === query) {
+      toast.warn('Please change your search query');
+    } else {
+      setSearchQuery(query);
+      setImages([]);
+      setPage(1);
+    }
   };
 
   const incrementPage = () => setPage(prevState => prevState + 1);

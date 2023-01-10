@@ -12,11 +12,12 @@ function Searchbar({ onSubmit }) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (searchQuery.trim() === '') {
+    const query = searchQuery.trim();
+    if (query === '') {
       return toast.error('Рядок пошуку пустий !');
     }
 
-    onSubmit(searchQuery);
+    onSubmit(query);
     setSearchQuery('');
   };
 
